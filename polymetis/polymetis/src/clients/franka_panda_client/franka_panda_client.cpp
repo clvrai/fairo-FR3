@@ -81,6 +81,12 @@ FrankaTorqueControlClient::FrankaTorqueControlClient(
   for (int i = 0; i < NUM_DOFS * NUM_DOFS; i++) {
     robot_state_.add_mass_matrix(0.0);
   }
+  for (int i = 0; i < 4 * 4; i++) {
+    robot_state_.add_ee_pose(0.0);
+  }
+  for (int i = 0; i < 6 * NUM_DOFS; i++) {
+    robot_state_.add_jacobian(0.0);
+  }
   // Parse yaml
   limit_rate_ = config["limit_rate"].as<bool>();
   lpf_cutoff_freq_ = config["lpf_cutoff_frequency"].as<double>();
@@ -250,6 +256,14 @@ void FrankaTorqueControlClient::updateServerCommand(
     std::array<double, 49> mass_matrix = model_ptr_->mass(libfranka_robot_state);
     for (int i = 0; i < NUM_DOFS * NUM_DOFS; i++) {
       robot_state_.set_mass_matrix(i, mass_matrix[i]);
+    }
+    auto ee_pose = model_ptr_->pose(franka::Frame::kEndEffector, libfranka_robot_state);
+    for (int i = 0; i < 4 * 4; i++) {
+      robot_state_.set_ee_pose(i, ee_pose[i]);
+    }
+    auto jacobian = model_ptr_->zeroJacobian(franka::Frame::kEndEffector, libfranka_robot_state);
+    for (int i = 0; i < 6 * NUM_DOFS; i++) {
+      robot_state_.set_jacobian(i, jacobian[i]);
     }
 
     robot_state_.set_prev_command_successful(prev_command_successful);

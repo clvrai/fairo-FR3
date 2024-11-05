@@ -134,6 +134,8 @@ message RobotState {
   bool prev_command_successful = 11;                      //Whether previous command packet is successfully transmitted
   int32 error_code = 12;
   repeated float mass_matrix = 13;
+  repeated float ee_pose = 14;
+  repeated float jacobian = 15;
 }
 
 message TorqueCommand {
