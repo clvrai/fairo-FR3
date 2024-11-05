@@ -222,4 +222,10 @@
       <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
     </inertial>
   </link>
+  <joint name="panda_joint8" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0.107"/>
+    <parent link="panda_link7"/>
+    <child link="panda_link8"/>
+    <axis xyz="0 0 0"/>
+  </joint>
 </robot>
