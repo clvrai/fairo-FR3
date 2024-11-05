@@ -441,6 +441,9 @@ class RobotInterface(BaseRobotInterface):
         pos, quat = self.robot_model.forward_kinematics(joint_pos)
         return pos, quat
 
+    def get_ee_pose_mat(self) -> torch.Tensor:
+        return torch.Tensor(self.get_robot_state().ee_pose).reshape(4, 4).t().contiguous()
+
     def get_jacobian(joint_angles):
         raise NotImplementedError  # TODO
 
