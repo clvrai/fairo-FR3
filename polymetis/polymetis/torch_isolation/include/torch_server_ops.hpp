@@ -30,6 +30,7 @@ private:
   struct TorchTensor *rs_joint_velocities_ = nullptr;
   struct TorchTensor *rs_motor_torques_measured_ = nullptr;
   struct TorchTensor *rs_motor_torques_external_ = nullptr;
+  struct TorchTensor *rs_mass_matrix_ = nullptr;
 
 public:
   TorchRobotState(int num_dofs);
@@ -38,7 +39,8 @@ public:
                     std::vector<float> joint_positions,
                     std::vector<float> joint_velocities,
                     std::vector<float> motor_torques_measured,
-                    std::vector<float> motor_torques_external);
+                    std::vector<float> motor_torques_external,
+                    std::vector<float> mass_matrix);
   struct TorchInput *input_ = nullptr;
   int num_dofs_;
 };

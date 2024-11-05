@@ -164,7 +164,9 @@ PolymetisControllerServerImpl::ControlUpdate(ServerContext *context,
       std::vector<float>(robot_state->motor_torques_measured().begin(),
                          robot_state->motor_torques_measured().end()),
       std::vector<float>(robot_state->motor_torques_external().begin(),
-                         robot_state->motor_torques_external().end()));
+                         robot_state->motor_torques_external().end()),
+      std::vector<float>(robot_state->mass_matrix().begin(),
+                         robot_state->mass_matrix().end()));
 
   // Lock to prevent 1) controller updates while controller is running; 2)
   // external termination during controller selection, which might cause loading

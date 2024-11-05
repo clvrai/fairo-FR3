@@ -73,6 +73,8 @@ TorchRobotState::TorchRobotState(int num_dofs) {
   rs_joint_velocities_ = new TorchTensor{torch::zeros(num_dofs)};
   rs_motor_torques_measured_ = new TorchTensor{torch::zeros(num_dofs)};
   rs_motor_torques_external_ = new TorchTensor{torch::zeros(num_dofs)};
+  rs_mass_matrix_ = new TorchTensor{torch::zeros(num_dofs * num_dofs)};
+
 
   state_dict_ = new StateDict{c10::Dict<std::string, torch::Tensor>()};
 
@@ -83,6 +85,8 @@ TorchRobotState::TorchRobotState(int num_dofs) {
                            rs_motor_torques_measured_->data);
   state_dict_->data.insert("motor_torques_external",
                            rs_motor_torques_external_->data);
+  state_dict_->data.insert("mass_matrix",
+                           rs_mass_matrix_->data);
 
   input_ = new TorchInput{std::vector<torch::jit::IValue>()};
   input_->data.push_back(state_dict_->data);
@@ -94,6 +98,7 @@ TorchRobotState::~TorchRobotState() {
   delete rs_joint_velocities_;
   delete rs_motor_torques_measured_;
   delete rs_motor_torques_external_;
+  delete rs_mass_matrix_;
   delete state_dict_;
   delete input_;
 }
@@ -102,7 +107,8 @@ void TorchRobotState::update_state(int timestamp_s, int timestamp_ns,
                                    std::vector<float> joint_positions,
                                    std::vector<float> joint_velocities,
                                    std::vector<float> motor_torques_measured,
-                                   std::vector<float> motor_torques_external) {
+                                   std::vector<float> motor_torques_external,
+                                   std::vector<float> mass_matrix) {
   rs_timestamp_->data[0] = timestamp_s;
   rs_timestamp_->data[1] = timestamp_ns;
   for (int i = 0; i < joint_positions.size(); i++) {
@@ -110,6 +116,9 @@ void TorchRobotState::update_state(int timestamp_s, int timestamp_ns,
     rs_joint_velocities_->data[i] = joint_velocities[i];
     rs_motor_torques_measured_->data[i] = motor_torques_measured[i];
     rs_motor_torques_external_->data[i] = motor_torques_external[i];
+  }
+  for (int i = 0; i < mass_matrix.size(); i++) {
+    rs_mass_matrix_->data[i] = mass_matrix[i];
   }
 }
 

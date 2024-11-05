@@ -77,7 +77,10 @@ FrankaTorqueControlClient::FrankaTorqueControlClient(
     robot_state_.add_motor_torques_external(0.0);
     robot_state_.add_motor_torques_desired(0.0);
   }
-
+  
+  for (int i = 0; i < NUM_DOFS * NUM_DOFS; i++) {
+    robot_state_.add_mass_matrix(0.0);
+  }
   // Parse yaml
   limit_rate_ = config["limit_rate"].as<bool>();
   lpf_cutoff_freq_ = config["lpf_cutoff_frequency"].as<double>();
@@ -242,6 +245,11 @@ void FrankaTorqueControlClient::updateServerCommand(
       }
       robot_state_.set_motor_torques_desired(i,
                                              libfranka_robot_state.tau_J_d[i]);
+    }
+    
+    std::array<double, 49> mass_matrix = model_ptr_->mass(libfranka_robot_state);
+    for (int i = 0; i < NUM_DOFS * NUM_DOFS; i++) {
+      robot_state_.set_mass_matrix(i, mass_matrix[i]);
     }
 
     robot_state_.set_prev_command_successful(prev_command_successful);
