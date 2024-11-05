@@ -132,6 +132,11 @@ FrankaTorqueControlClient::FrankaTorqueControlClient(
         config["collision_behavior"]["lower_force"].as<std::array<double, 6>>(),
         config["collision_behavior"]["upper_force"]
             .as<std::array<double, 6>>());
+    // Set impedance, load.
+    robot_ptr_->setJointImpedance({3000., 3000., 3000., 2500., 2500., 2000., 2000.});
+    robot_ptr_->setCartesianImpedance({3000., 3000., 3000., 300., 300., 300.});
+    robot_ptr_->setK({1., 0., 0., 0., 0., 1., 0., 0., 0., 0., 1., 0., 0., 0., 0., 1});
+    robot_ptr_->setLoad(0.1, {0., 0., 0.,}, {0., 0., 0., 0., 0., 0., 0., 0., 0.,});
   }
 }
 
