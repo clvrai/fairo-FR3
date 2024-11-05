@@ -2,7 +2,6 @@ name: polymetis-local
 channels:
   - pytorch
   - fair-robotics
-  - aihabitat
   - conda-forge
   - defaults
 dependencies:
@@ -10,7 +9,6 @@ dependencies:
     - assimp=5.0.1=hdca8b6f_4
     - cmake
     # - cudatoolkit=11.3
-    - cpuonly
     - doxygen
     - eigen=3.3.9
     - grpc-cpp=1.41.1
@@ -21,7 +19,6 @@ dependencies:
     - pinocchio ==2.5.2
     - poco ==1.9.0 # needed by libfranka
     - python ==3.8
-    - pytorch ==1.13.1
     - urdfdom=2.3.3=hc9558a2_0
     - urdfdom_headers=1.0.5=hc9558a2_2
     - yaml-cpp ==0.6.3
@@ -34,7 +31,6 @@ dependencies:
     - breathe
     - dash
     - grpcio ==1.46.0
-    - habitat-sim=0.2.1=py3.8_bullet_linux_fc7fb11ccec407753a73ab810d1dbb5f57d0f9b9
     - mujoco
     - hydra-core ==1.0.6
     - importlib-resources ==5.7.1
@@ -55,4 +51,3 @@ dependencies:
     - sphinx-copybutton
     - sphinx-book-theme
     - tqdm
-    - withbullet
