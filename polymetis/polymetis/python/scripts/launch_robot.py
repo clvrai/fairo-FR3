@@ -44,9 +44,9 @@ def main(cfg):
 
     if cfg.use_real_time:
         log.info(f"Acquiring sudo...")
-        subprocess.run(["sudo", "echo", '"Acquired sudo."'], check=True)
+        subprocess.run(["echo", '"Acquired sudo."'], check=True)
 
-        server_cmd = ["sudo", "-s", "env", '"PATH=$PATH"'] + server_cmd + ["-r"]
+        server_cmd = ["env", '"PATH=$PATH"'] + server_cmd + ["-r"]
     server_output = subprocess.Popen(
         server_cmd, stdout=sys.stdout, stderr=sys.stderr, preexec_fn=os.setpgrp
     )
@@ -60,7 +60,7 @@ def main(cfg):
                 f"Using sudo to kill subprocess with pid {server_output.pid}, pgid {pgid}..."
             )
             # send NEGATIVE of process group ID to kill process tree
-            subprocess.check_call(["sudo", "kill", "-9", f"-{pgid}"])
+            subprocess.check_call(["kill", "-9", f"-{pgid}"])
 
     else:
 

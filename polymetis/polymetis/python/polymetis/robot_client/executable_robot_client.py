@@ -71,7 +71,7 @@ class ExecutableRobotClient(AbstractRobotClient):
                 # Add sudo if realtime; also, inherit $PATH variable
                 command_list = [path_to_exec, cfg_file.name]
                 if self.use_real_time:
-                    command_list = ["sudo", "env", '"PATH=$PATH"'] + command_list
+                    command_list = ["env", '"PATH=$PATH"'] + command_list
 
                 # Run
                 log.info(f"=== Executing client at {path_to_exec} ===")
